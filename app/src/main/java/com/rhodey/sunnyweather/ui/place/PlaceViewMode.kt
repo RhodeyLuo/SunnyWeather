@@ -17,6 +17,5 @@ class PlaceViewMode : ViewModel() {
 
     fun searchPlaces(query: String) {
         searchLiveData.value = query
-
     }
 }
