@@ -1,7 +1,10 @@
 package com.rhodey.sunnyweather.logic
 
 
+import androidx.core.content.edit
 import androidx.lifecycle.liveData
+import com.google.gson.Gson
+import com.rhodey.sunnyweather.logic.dao.PlaceDao
 import com.rhodey.sunnyweather.logic.model.Place
 import com.rhodey.sunnyweather.logic.model.Weather
 import com.rhodey.sunnyweather.logic.network.SunnyWeatherNetwork
@@ -36,6 +39,12 @@ object Repository {
             }
         }
     }
+
+    fun savePlace(place: Place) = PlaceDao.savePlace(place)
+
+    fun getSavedPlace(): Place = PlaceDao.getSavedPlace()
+
+    fun isPlaceSaved(): Boolean = PlaceDao.isPlaceSaved()
 
     private fun <T> fire(context: CoroutineContext, block: suspend () -> Result<T>) =
         liveData(context) {

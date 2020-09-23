@@ -1,5 +1,6 @@
 package com.rhodey.sunnyweather.ui.place
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import androidx.fragment.app.Fragment
@@ -13,7 +14,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.rhodey.sunnyweather.MainActivity
 import com.rhodey.sunnyweather.R
+import com.rhodey.sunnyweather.ui.weather.WeatherActivity
 import kotlinx.android.synthetic.main.fragment_place.*
 
 // TODO: Rename parameter arguments, choose names that match
@@ -28,7 +31,7 @@ private const val ARG_PARAM2 = "param2"
  */
 class PlaceFragment : Fragment() {
 
-    private val viewMode by lazy {
+    val viewMode by lazy {
         ViewModelProvider(this).get(PlaceViewMode::class.java)
     }
 
@@ -47,8 +50,20 @@ class PlaceFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        if (activity is MainActivity && viewMode.isPlaceSaved()) {
+            val savedPlace = viewMode.getSavedPlace()
+            val intent = Intent(activity, WeatherActivity::class.java).apply {
+                putExtra("location_lng", savedPlace.location.lng)
+                putExtra("location_lat", savedPlace.location.lat)
+                putExtra("place_name", savedPlace.name)
+            }
+            startActivity(intent)
+            activity?.finish()
+            return
+        }
+
         recyclerView.layoutManager = LinearLayoutManager(activity)
-        val placeAdapter = PlaceAdapter(viewMode.placeList)
+        val placeAdapter = PlaceAdapter(this, viewMode.placeList)
         recyclerView.adapter = placeAdapter
         searchPlaceEdit.addTextChangedListener { text ->
             val content = text.toString()

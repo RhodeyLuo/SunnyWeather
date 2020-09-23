@@ -15,6 +15,6 @@ data class Place(
 )
 
 data class Location(
-    val lat: String,
-    val lng: String
+    val lng: String,
+    val lat: String
 )
