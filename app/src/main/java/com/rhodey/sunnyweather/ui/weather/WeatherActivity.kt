@@ -24,6 +24,7 @@ import kotlinx.android.synthetic.main.activity_weather.*
 import kotlinx.android.synthetic.main.forecast.*
 import kotlinx.android.synthetic.main.life_index.*
 import kotlinx.android.synthetic.main.now.*
+import kotlinx.coroutines.MainScope
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -43,7 +44,6 @@ class WeatherActivity : AppCompatActivity() {
         //StatusBarUtil.setDarkMode(this)
         StatusBarUtil.setTransparent(this)
         setContentView(R.layout.activity_weather)
-
 
         if (viewModel.locationLng.isEmpty()) {
             viewModel.locationLng = intent.getStringExtra("location_lng") ?: ""
